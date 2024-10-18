@@ -8,7 +8,6 @@ app = FastAPI()
 
 @app.post("/receive-data/") # Callback
 async def receive_data(request: Request):
-    global df
     data = await request.json()  # Parse
     logging.info(f"Received data: {data}")
 
