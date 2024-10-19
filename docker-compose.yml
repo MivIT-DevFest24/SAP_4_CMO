@@ -47,6 +47,19 @@ services:
     networks:
       - app-network
 
+  # Alerting service (WebSocket server)
+  alerting-service:
+    build: ./Services/Alerting
+    env_file:
+      - ./Services/Alerting/.env
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./Services/Alerting:/app
+    command: uvicorn alerting_receive:app --host 0.0.0.0 --port 8002
+    networks:
+      - app-network
+
 volumes:
   influxdb_data:
 
