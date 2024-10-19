@@ -1,7 +1,3 @@
-import google.generativeai as genai
-import os
-from dotenv import load_dotenv
-
 def analyse(input_data, json_parser, model):
 
     prompt = """
