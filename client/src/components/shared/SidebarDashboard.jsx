@@ -2,14 +2,12 @@ import React from "react";
 import Logo from "@/components/custom/Logo.jsx";
 import { Button } from "../ui/button.jsx";
 import {
-  Bookmark,
   LogOut,
   User,
   LayoutDashboard,
   PackagePlus,
   Store,
   RectangleEllipsis,
-  Newspaper,
   FileText,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -47,6 +45,85 @@ export default function SidebarDashboard() {
             variant="ghost"
             className={`flex gap-2 text-base justify-start items-center w-full
             ${
+              path == "dashboard"
+                ? "bg-slate-100 font-bold dark:bg-slate-800"
+                : ""
+            }
+            `}
+            onClick={() => navigate("/dashboard")}
+          >
+            <LayoutDashboard
+              className={path == "dashboard" ? "fill-black" : ""}
+            />
+            Dashboard
+          </Button>
+          <Button
+            size="lg"
+            variant="ghost"
+            className={`flex gap-2 text-base justify-start items-center w-full
+                ${
+                  path == "machines"
+                    ? "bg-slate-100 font-bold dark:bg-slate-800"
+                    : ""
+                }
+                `}
+            onClick={() => navigate("/machines")}
+          >
+            <PackagePlus />
+            Machines
+          </Button>
+          <Button
+            size="lg"
+            variant="ghost"
+            className={`flex gap-2 text-base justify-start items-center w-full
+                ${
+                  path == "rapports"
+                    ? "bg-slate-100 font-bold dark:bg-slate-800"
+                    : ""
+                }
+                `}
+            onClick={() => navigate("/rapports")}
+          >
+            <Store />
+            Error rapports
+          </Button>
+          <Button
+            size="lg"
+            variant="ghost"
+            className={`flex gap-2 text-base justify-start items-center w-full
+                ${
+                  path == "scheduler"
+                    ? "bg-slate-100 font-bold dark:bg-slate-800"
+                    : ""
+                }
+                `}
+            onClick={() => navigate("/scheduler")}
+          >
+            <RectangleEllipsis />
+            Maintining scheduler
+          </Button>
+          {role === "manager" && (
+            <Button
+              size="lg"
+              variant="ghost"
+              className={`flex gap-2 text-base justify-start items-center w-full
+            ${
+              path == "employees"
+                ? "bg-slate-100 font-bold dark:bg-slate-800"
+                : ""
+            }
+            `}
+              onClick={() => navigate("/employees")}
+            >
+              <FileText />
+              Employees
+            </Button>
+          )}
+          <Button
+            size="lg"
+            variant="ghost"
+            className={`flex gap-2 text-base justify-start items-center w-full
+            ${
               path == "profile"
                 ? "bg-slate-100 font-bold dark:bg-slate-800"
                 : ""
@@ -56,119 +133,6 @@ export default function SidebarDashboard() {
             <User className={path == "profile" ? "fill-black" : ""} />
             Profile
           </Button>
-          <Button
-            size="lg"
-            variant="ghost"
-            className={`flex gap-2 text-base justify-start items-center w-full
-            ${
-              path == "bookmarks"
-                ? "bg-slate-100 font-bold dark:bg-slate-800"
-                : ""
-            }
-            `}
-            onClick={() => navigate("/bookmarks")}
-          >
-            <Bookmark className={path == "bookmarks" ? "fill-black" : ""} />
-            Bookmarks
-          </Button>
-          {role === "admin" && (
-            <Button
-              size="lg"
-              variant="ghost"
-              className={`flex gap-2 text-base justify-start items-center w-full
-            ${
-              path == "dashboard"
-                ? "bg-slate-100 font-bold dark:bg-slate-800"
-                : ""
-            }
-            `}
-              onClick={() => navigate("/dashboard")}
-            >
-              <LayoutDashboard
-                className={path == "dashboard" ? "fill-black" : ""}
-              />
-              Dashboard
-            </Button>
-          )}
-          {role === "admin" || role === "manager" ? (
-            <>
-              <Button
-                size="lg"
-                variant="ghost"
-                className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "productsDashboard"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
-                `}
-                onClick={() => navigate("/productsDashboard")}
-              >
-                <PackagePlus />
-                Products
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "shopsDashboard"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
-                `}
-                onClick={() => navigate("/shopsDashboard")}
-              >
-                <Store />
-                Shops
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "bannersDashboard"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
-                `}
-                onClick={() => navigate("/bannersDashboard")}
-              >
-                <RectangleEllipsis />
-                Banners
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "newsDashboard"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
-                `}
-                onClick={() => navigate("/newsDashboard")}
-              >
-                <FileText />
-                News
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "newsletterDashboard"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
-                `}
-                onClick={() => navigate("/newsletterDashboard")}
-              >
-                <Newspaper />
-                Newsletter
-              </Button>
-            </>
-          ) : null}
         </ul>
       </div>
       <Button

@@ -6,10 +6,7 @@ import { createRefreshToken } from "../helpers/createTokens.js";
 
 export const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).cache({
-      key: req.userId,
-      expire: 3600,
-    });
+    const user = await User.findById(req.userId)
     if (!user) {
       return res.status(404).send({ message: "User Not found." });
     }
@@ -82,10 +79,7 @@ export const updatePassword = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     // get all users except the current user
-    const users = await User.find({ _id: { $ne: req.userId } }).cache({
-      key: "AllUsers",
-      expire: 3600,
-    });
+    const users = await User.find({ _id: { $ne: req.userId } })
     res.status(200).send(
       users.map((user) => ({
         _id: user._id,
@@ -102,10 +96,7 @@ export const getAllUsers = async (req, res) => {
 
 export const modifyUserRole = async (req, res) => {
   try {
-    const userToModify = await User.findById(req.body.userId).cache({
-      key: req.body.userId,
-      expire: 3600,
-    });
+    const userToModify = await User.findById(req.body.userId)
     if (!userToModify) {
       return res.status(404).send({ message: "User Not found." });
     }
@@ -121,10 +112,7 @@ export const modifyUserRole = async (req, res) => {
 
 export const getRecentUsers = async (req, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 }).limit(5).cache({
-      key: "RecentUsers",
-      expire: 3600,
-    });
+    const users = await User.find().sort({ createdAt: -1 }).limit(5)
     res.status(200).send(
       users.map((user) => ({
         _id: user._id,
@@ -156,10 +144,7 @@ export const deleteUser = async (req, res) => {
 
 export const getStatistics = async (req, res) => {
   try {
-    const users = await User.find().cache({
-      key: "AllUsers",
-      expire: 3600,
-    });
+    const users = await User.find()
     res.status(200).send({
       users: users.length,
     });

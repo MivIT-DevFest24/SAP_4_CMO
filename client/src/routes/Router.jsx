@@ -1,9 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import { Suspense } from "react";
 import Profile from "@/pages/Profile.jsx";
 import NotFound from "@/pages/NotFound.jsx";
 import DashboardLayout from "@/layouts/DashboardLayout.jsx";
-import loading_gif from "@/assets/images/Loading-icon-unscreen.gif";
 
 import { useAuth } from "@/context/AuthContext.jsx";
 import { useEffect } from "react";
@@ -14,10 +12,13 @@ import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import axios from "axios";
 import Home from "@/pages/Home";
+import Machines from "@/pages/Machines";
+import Scheduler from "@/pages/Scheduler";
+import Rapports from "@/pages/Rapports";
+import Employees from "@/pages/Employees";
 
 const Router = () => {
-  const { setConnected, setRole, setFirstName, connected, role } =
-    useAuth();
+  const { setConnected, setRole, setFirstName, connected, role } = useAuth();
 
   // check if the user is connected
   useEffect(() => {
@@ -100,18 +101,19 @@ const Router = () => {
         exact
         path="/"
         element={
+          connected === false ? (
             <Home />
+          ) : (
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
+          )
         }
       />
 
-      <Route
-        path="/reset-password/:token"
-        element={
-            <ResetPassword />
-        }
-      />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-      {connected == true && (
+      {connected == true ? (
         <>
           <Route
             path="/profile"
@@ -121,34 +123,61 @@ const Router = () => {
               </DashboardLayout>
             }
           />
+          <Route
+            path="/dashboard"
+            element={
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/machines"
+            element={
+              <DashboardLayout>
+                <Machines />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/scheduler"
+            element={
+              <DashboardLayout>
+                <Scheduler />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/rapports"
+            element={
+              <DashboardLayout>
+                <Rapports />
+              </DashboardLayout>
+            }
+          />
 
-          {role === "admin" && (
+          {role === "manager" && (
             <Route
-              path="/dashboard"
+              path="/employees"
               element={
                 <DashboardLayout>
-                  <Suspense
-                    fallback={
-                      <div>
-                        <img src={loading_gif} alt="loading gif" />
-                      </div>
-                    }
-                  >
-                    <Dashboard />
-                  </Suspense>
+                  <Employees />
                 </DashboardLayout>
               }
             />
           )}
+          <Route
+            path="*"
+            element={
+              <DashboardLayout>
+                <NotFound />
+              </DashboardLayout>
+            }
+          />
         </>
+      ) : (
+        <Route path="*" element={<NotFound />} />
       )}
-
-      <Route
-        path="*"
-        element={
-            <NotFound />
-        }
-      />
     </Routes>
   );
 };

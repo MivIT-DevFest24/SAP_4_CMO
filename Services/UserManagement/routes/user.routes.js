@@ -21,6 +21,7 @@ router.put("/profile", [isUser], updateUser);
 router.put("/updatePassword", [isUser], updatePassword);
 
 // Manager routes
+// router.post("/createUser", [isManager], [checkDuplicateUsernameOrEmail], createUser);
 router.post("/createUser", [checkDuplicateUsernameOrEmail], createUser);
 router.get("/all", [isManager], getAllUsers);
 router.get("/recent", [isManager], getRecentUsers);
