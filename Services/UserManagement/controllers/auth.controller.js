@@ -17,7 +17,7 @@ export const createUser = async (req, res) => {
       lastname: req.body.lastname,
       username: req.body.username,
       role: req.body.role,
-      shifts: req.body.shifts,
+      sectors: req.body.sectors,
       email: req.body.email,
       password: bycrypt.hashSync(req.body.password, 8),
     });

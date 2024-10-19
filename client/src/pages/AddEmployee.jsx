@@ -19,8 +19,8 @@ const ProfilInfoFormSchema = z.object({
   email: z.string().email("please enter a valid email"),
   // role should be a select field with options like admin, user, etc
   role: z.string().min(1, "please select a role"),
-  // shifts should be a select field with options like IT, HR, etc (can take multiple values)
-  shifts: z.array(z.string()).min(1, "please select a shifts"),
+  // sectors should be a select field with options like IT, HR, etc (can take multiple values)
+  sectors: z.array(z.string()).min(1, "please select a sectors"),
   password: z
     .string()
     .min(8, "password should be at least 8 characters")
@@ -49,7 +49,7 @@ export default function AddEmployee() {
       username: "",
       email: "",
       role: "",
-      shifts: "",
+      sectors: "",
       password: "",
       confirmpassword: "",
     },
@@ -80,7 +80,7 @@ export default function AddEmployee() {
       setValue("username", "");
       setValue("email", "");
       setValue("role", "");
-      setValue("shifts", "");
+      setValue("sectors", "");
       setValue("password", "");
       setValue("confirmpassword", "");
     } catch (error) {
@@ -150,12 +150,12 @@ export default function AddEmployee() {
             id="role"
           />
           <MultiSelect
-            topic={"Shift"}
+            topic={"Sector"}
             items={shiftNames}
-            value={getValues("shifts")}
-            onChange={(value) => setValue("shifts", value)}
+            value={getValues("sectors")}
+            onChange={(value) => setValue("sectors", value)}
             errors={errors}
-            id="shifts"
+            id="sectors"
           />
         </div>
 

@@ -12,7 +12,7 @@ import { useLoginMutation } from "@/hooks/react-query/useAuth.js";
 import { setAccessToken } from "@/context/accessToken.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { createAxiosInstance } from "@/services/apiConfig.js";
-import heroPic from "@/assets/images/hero-pic.png";
+import heroPic from "@/assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 
 const LoginFormSchema = z.object({
