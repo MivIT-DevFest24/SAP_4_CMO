@@ -60,6 +60,7 @@ services:
     networks:
       - app-network
 
+<<<<<<< HEAD
   # UserManagement service  
   usermanagement-service:
     build: ./Services/UserManagement
@@ -70,6 +71,21 @@ services:
     volumes:
       - ./Services/UserManagement:/app
     command: npm install && npm start
+=======
+  # Reporting service (WebSocket server)
+  reporting-service:
+    build: ./Services/Reporting
+    env_file:
+      - ./Services/Reporting/.env
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./Services/Reporting:/app
+    command: uvicorn reporting_receive:app --host 0.0.0.0 --port 8003
+    networks:
+      - app-network
+
+>>>>>>> 6bd24b4edff3240fc7b2b466aeaf4e7b8c0f7386
 volumes:
   influxdb_data:
 

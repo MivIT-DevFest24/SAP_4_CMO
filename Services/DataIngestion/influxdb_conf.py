@@ -20,4 +20,7 @@ def get_influxdb_client():
     )
     return client
 
+if __name__ == "__main__":
+    client = get_influxdb_client()
+    print("InfluxDB client created successfully!")
 

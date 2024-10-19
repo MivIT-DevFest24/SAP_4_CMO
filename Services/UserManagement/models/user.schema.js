@@ -9,7 +9,7 @@ const user = mongoose.model(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["operator", "manager"], default: "operator" },
-    shifts: [
+    sectors: [
       {
         type: String,
         enum: ["assembling engines", "welding frames", "painting bodies"],

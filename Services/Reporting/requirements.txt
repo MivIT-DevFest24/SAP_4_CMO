@@ -1,0 +1,7 @@
+influxdb-client
+fastapi
+uvicorn
+requests
+python-dotenv
+google-generativeai
+langchain

@@ -70,12 +70,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: "shifts",
-    header: () => <div className="text-left">Shifts</div>,
+    accessorKey: "sectors",
+    header: () => <div className="text-left">Sector</div>,
     cell: ({ row }) => {
-      const shifts = row.getValue("shifts");
+      const sectors = row.getValue("sectors");
 
-      return <div className="text-left font-medium">{shifts}</div>;
+      return <div className="text-left font-medium">{sectors}</div>;
     },
   },
   {
@@ -221,7 +221,6 @@ export default function UserTable() {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  console.log(data);
 
   return (
     <div className="w-full">
