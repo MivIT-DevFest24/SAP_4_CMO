@@ -1,3 +1,6 @@
 fastapi
 uvicorn
 requests
+influxdb-client
+websockets
+python-dotenv
