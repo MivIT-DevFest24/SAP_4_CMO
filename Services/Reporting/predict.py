@@ -9,17 +9,20 @@ import logging
 # Load environment variables from .env file
 load_dotenv()
 
-# InfluxDB credentials and configuration
-INFLUXDB_URL = os.getenv("INFLUXDB_URL")
-INFLUXDB_TOKEN = os.getenv("INFLUXDB_TOKEN")
-INFLUXDB_ORG = os.getenv("INFLUXDB_ORG")
-INFLUXDB_BUCKET = os.getenv("INFLUXDB_BUCKET")
+# Get environment variables
+influx_token = os.getenv("INFLUX_TOKEN")
+influx_org = os.getenv("INFLUX_ORG")
+influx_bucket = os.getenv("INFLUX_BUCKET")
+influx_url = os.getenv("INFLUX_URL")
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-
-# Initialize the InfluxDB Client
-client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
+def get_influxdb_client():
+    # Initialize the InfluxDB client
+    client = InfluxDBClient(
+        url=influx_url,
+        token=influx_token,
+        org=influx_org
+    )
+    return client
 
 def query_data_past_5_days():
     """
@@ -32,7 +35,7 @@ def query_data_past_5_days():
     
     # Define the Flux query to fetch data
     flux_query = f"""
-    from(bucket: "{INFLUXDB_BUCKET}")
+    from(bucket: "{influx_bucket}")
       |> range(start: {start_time.isoformat()}Z, stop: {current_time.isoformat()}Z)
       |> filter(fn: (r) => r._measurement == "sensor_data")
       |> filter(fn: (r) => r._field == "temperature" or r._field == "vibration_level" or r._field == "power_consumption")
@@ -43,6 +46,7 @@ def query_data_past_5_days():
     logging.info(f"Querying data from {start_time} to {current_time}")
 
     # Execute the query and get results
+    client = get_influxdb_client()
     query_api = client.query_api()
     result = query_api.query(flux_query)
 
