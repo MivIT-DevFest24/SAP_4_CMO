@@ -1,0 +1,55 @@
+version: '3'
+services:
+  # InfluxDB service
+  influxdb:
+    image: influxdb:2.7
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: password
+      DOCKER_INFLUXDB_INIT_ORG: MivIT
+      DOCKER_INFLUXDB_INIT_BUCKET: SAP_4_CMO
+      DOCKER_INFLUXDB_INIT_TOKEN: tmwGkIX97oc22b_yzlxSC7NLHa0J1lOP5sOTN84ijg_3FEsJRJ_zfFDdl8XN7PYVd0QNkrpC6Rv_UascaNzAWA==
+
+    networks:
+      - app-network
+
+  # Data ingestion service
+  dataingestion-service:
+    build: ./Services/DataIngestion
+    env_file:
+      - ./Services/DataIngestion/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - influxdb
+      - analytics-service  # Ensure analytics service is available
+    volumes:
+      - ./Services/DataIngestion:/app
+    command: uvicorn webhook_receive:app --host 0.0.0.0 --port 8000
+    networks:
+      - app-network
+
+  # Analytics service (WebSocket server)
+  analytics-service:
+    build: ./Services/Analytics
+    env_file:
+      - ./Services/Analytics/.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./Services/Analytics:/app
+    command: uvicorn analytics_receive:app --host 0.0.0.0 --port 8001
+    networks:
+      - app-network
+
+volumes:
+  influxdb_data:
+
+networks:
+  app-network:
+    driver: bridge
