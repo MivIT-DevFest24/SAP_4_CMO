@@ -8,7 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useChangePasswordMutatuion } from "@/hooks/react-query/useAuth.js";
-import { useToast } from "@/components/ui/use-toast.jsx";
+import { useToast } from "@/hooks/use-toast";
 
 const ChangePasswordFormSchema = z.object({
   Oldpassword: z.string().min(8).max(20),
@@ -74,6 +74,7 @@ export function ChangePassword({ selfOpenModal }) {
           isSubmitting={isSubmitting}
           text="Reset"
           loading="Reseting..."
+          className="bg-orange-500 hover:bg-orange-700 w-full"
         />
 
         {errors.root && <ErrorMessage message={errors.root.message} />}

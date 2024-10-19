@@ -9,6 +9,10 @@ import {
   Store,
   RectangleEllipsis,
   FileText,
+  Tractor,
+  ScrollText,
+  CalendarClock,
+  Users,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -44,16 +48,12 @@ export default function SidebarDashboard() {
             size="lg"
             variant="ghost"
             className={`flex gap-2 text-base justify-start items-center w-full
-            ${
-              path == "dashboard"
-                ? "bg-slate-100 font-bold dark:bg-slate-800"
-                : ""
-            }
+            ${path == "dashboard" ? "bg-orange-100 font-bold " : ""}
             `}
             onClick={() => navigate("/dashboard")}
           >
             <LayoutDashboard
-              className={path == "dashboard" ? "fill-black" : ""}
+              className={path == "dashboard" ? "text-orange-500 " : ""}
             />
             Dashboard
           </Button>
@@ -61,45 +61,37 @@ export default function SidebarDashboard() {
             size="lg"
             variant="ghost"
             className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "machines"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
+                ${path == "machines" ? "bg-orange-100 font-bold " : ""}
                 `}
             onClick={() => navigate("/machines")}
           >
-            <PackagePlus />
+            <Tractor
+              className={path == "machines" ? "text-orange-500 " : ""}
+            />
             Machines
           </Button>
           <Button
             size="lg"
             variant="ghost"
             className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "rapports"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
+                ${path == "rapports" ? "bg-orange-100 font-bold " : ""}
                 `}
             onClick={() => navigate("/rapports")}
           >
-            <Store />
+            <ScrollText className={path == "rapports" ? "text-orange-500 " : ""} />
             Error rapports
           </Button>
           <Button
             size="lg"
             variant="ghost"
             className={`flex gap-2 text-base justify-start items-center w-full
-                ${
-                  path == "scheduler"
-                    ? "bg-slate-100 font-bold dark:bg-slate-800"
-                    : ""
-                }
+                ${path == "scheduler" ? "bg-orange-100 font-bold " : ""}
                 `}
             onClick={() => navigate("/scheduler")}
           >
-            <RectangleEllipsis />
+            <CalendarClock
+              className={path == "scheduler" ? "text-orange-500 " : ""}
+            />
             Maintining scheduler
           </Button>
           {role === "manager" && (
@@ -107,15 +99,13 @@ export default function SidebarDashboard() {
               size="lg"
               variant="ghost"
               className={`flex gap-2 text-base justify-start items-center w-full
-            ${
-              path == "employees"
-                ? "bg-slate-100 font-bold dark:bg-slate-800"
-                : ""
-            }
+            ${path == "employees" ? "bg-orange-100 font-bold " : ""}
             `}
               onClick={() => navigate("/employees")}
             >
-              <FileText />
+              <Users
+                className={path == "employees" ? "text-orange-500 " : ""}
+              />
               Employees
             </Button>
           )}
@@ -123,21 +113,21 @@ export default function SidebarDashboard() {
             size="lg"
             variant="ghost"
             className={`flex gap-2 text-base justify-start items-center w-full
-            ${
-              path == "profile"
-                ? "bg-slate-100 font-bold dark:bg-slate-800"
-                : ""
-            }`}
+            ${path == "profile" ? "bg-orange-100 font-bold " : ""}`}
             onClick={() => navigate("/profile")}
           >
-            <User className={path == "profile" ? "fill-black" : ""} />
+            <User
+              className={
+                path == "profile" ? "fill-orange-500 text-orange-500" : ""
+              }
+            />
             Profile
           </Button>
         </ul>
       </div>
       <Button
         className="font-bold flex gap-2 text-base justify-center items-center mb-6
-        text-red-500 hover:text-red-500 hover:bg-red-100 dark:hover:text-red-500 dark:hover:bg-red-900"
+        bg-orange-500 hover:bg-orange-700 text-white hover:text-white"
         variant="ghost"
         onClick={logout}
       >

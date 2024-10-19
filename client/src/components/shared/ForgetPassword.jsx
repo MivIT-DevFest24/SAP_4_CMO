@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForgotPasswordMutation } from "@/hooks/react-query/useAuth.js";
-import { useToast } from "@/components/ui/use-toast.jsx";
+import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext.jsx";
 import FormInput from "@/components/custom/FormInput.jsx";
 
@@ -67,6 +67,7 @@ export default function ForgetPassword() {
           isSubmitting={isSubmitting}
           text="Send Reset Link"
           loading="Sending..."
+          className="bg-orange-500 hover:bg-orange-700 w-full"
         />
 
         {errors.root && <ErrorMessage message={errors.root.message} />}

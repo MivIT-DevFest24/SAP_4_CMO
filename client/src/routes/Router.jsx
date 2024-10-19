@@ -16,9 +16,10 @@ import Machines from "@/pages/Machines";
 import Scheduler from "@/pages/Scheduler";
 import Rapports from "@/pages/Rapports";
 import Employees from "@/pages/Employees";
+import AddEmployee from "@/pages/AddEmployee";
 
 const Router = () => {
-  const { setConnected, setRole, setFirstName, connected, role } = useAuth();
+  const { setConnected, setRole, setFirstName, connected, role, setLastName } = useAuth();
 
   // check if the user is connected
   useEffect(() => {
@@ -35,11 +36,12 @@ const Router = () => {
         if (response.status === 200) {
           const data = await response.json();
           if (data.accessToken) {
-            const { accessToken, role, image, firstname } = data;
+            const { accessToken, role, firstname, lastname } = data;
             setAccessToken(accessToken);
             setConnected(true);
             setRole(role);
             setFirstName(firstname);
+            setLastName(lastname);
           }
         } else if (response.status === 203) {
           setConnected(false);
@@ -157,14 +159,25 @@ const Router = () => {
           />
 
           {role === "manager" && (
-            <Route
-              path="/employees"
-              element={
-                <DashboardLayout>
-                  <Employees />
-                </DashboardLayout>
-              }
-            />
+            <>
+              {" "}
+              <Route
+                path="/employees"
+                element={
+                  <DashboardLayout>
+                    <Employees />
+                  </DashboardLayout>
+                }
+              />
+              <Route
+                path="/employees/add"
+                element={
+                  <DashboardLayout>
+                    <AddEmployee />
+                  </DashboardLayout>
+                }
+              />
+            </>
           )}
           <Route
             path="*"

@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useResetPasswordMutatuion } from "@/hooks/react-query/useAuth.js";
-import { useToast } from "@/components/ui/use-toast.jsx";
+import { useToast } from "@/hooks/use-toast";
 import { useParams } from "react-router-dom";
 
 export default function ResetPassword() {

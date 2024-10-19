@@ -31,7 +31,7 @@ export default function NavbarDashboard() {
         />
         <h2 className="xl:text-2xl lg:text-xl font-bruno">{path}</h2>
       </div>
-      <div className=" flex justify-center items-center gap-4 pr-8">
+      <div className=" flex justify-center items-center gap-4 pr-6">
         <ProfilAvatar />
       </div>
     </div>
