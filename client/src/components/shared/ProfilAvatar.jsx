@@ -1,12 +1,4 @@
 import { useAuth } from "@/context/AuthContext.jsx";
-import { setAccessToken } from "@/context/accessToken.js";
-import { axiosInstance, createAxiosInstance } from "@/services/apiConfig.js";
-
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.jsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,43 +7,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.jsx";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar.jsx";
 
 import { useNavigate } from "react-router-dom";
-import { User } from "lucide-react";
+import { Bell, User } from "lucide-react";
 
 export default function ProfilAvatar() {
   const navigate = useNavigate();
-  const { setConnected, firstName, image, role } = useAuth();
+  const { firstName, role } = useAuth();
 
-  const logout = async () => {
-    try {
-      // clear the access token
-      navigate("/");
-      setConnected(false);
-      await axiosInstance.post("auth/logout");
-      setAccessToken(null);
-      createAxiosInstance();
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Avatar>
-            <AvatarImage
-              src={image}
-              className=" object-cover object-center"
-              alt="profil pic"
-            />
-            <AvatarFallback>
-              {firstName ? firstName.charAt(0).toUpperCase() : <User />}
-            </AvatarFallback>
-          </Avatar>
+          <Bell className=" text-orange-600" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Notifications</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
@@ -59,64 +31,20 @@ export default function ProfilAvatar() {
           >
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => navigate("/bookmarks")}
-          >
-            Bookmarks
-          </DropdownMenuItem>
-          {role === "admin" && (
-            <>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigate("/dashboard")}
-              >
-                Dashboard
-              </DropdownMenuItem>
-            </>
-          )}
-          {role === "admin" || role === "manager" ? (
-            <>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigate("/productsDashboard")}
-              >
-                Products
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigate("/shopsDashboard")}
-              >
-                Shops
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigate("/bannersDashboard")}
-              >
-                Banners
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigate("/newsDashboard")}
-              >
-                News
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => navigate("/newsletterDashboard")}
-              >
-                Newsletter
-              </DropdownMenuItem>
-            </>
-          ) : null}
-          <DropdownMenuItem
-            className="cursor-pointer text-red-500"
-            onClick={logout}
-          >
-            Logout
-          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <hr className="border-r-2 border-neutral-400 h-6" />
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarFallback>
+            <User />
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col items-start">
+          <p className="text-xl font-bold">{firstName}</p>
+          <p className="text-xs text-muted/60">{role}</p>
+        </div>
+      </div>
     </>
   );
 }

@@ -13,6 +13,7 @@ import { setAccessToken } from "@/context/accessToken.js";
 import { useAuth } from "@/context/AuthContext.jsx";
 import { createAxiosInstance } from "@/services/apiConfig.js";
 import heroPic from "@/assets/images/hero-pic.png";
+import { useNavigate } from "react-router-dom";
 
 const LoginFormSchema = z.object({
   email: z.string().nonempty(),
@@ -22,6 +23,7 @@ const LoginFormSchema = z.object({
 export default function Home() {
   const { setConnected, setRole, setFirstName } = useAuth();
   const loginMutation = useLoginMutation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -44,6 +46,8 @@ export default function Home() {
       setFirstName(response.firstName);
       setConnected(true);
       createAxiosInstance();
+      // Redirect to the dashboard
+      navigate("/dashboard");
     } catch (error) {
       setError("root", {
         type: "manual",

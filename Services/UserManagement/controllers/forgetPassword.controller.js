@@ -29,7 +29,7 @@ export const forgetPassword = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: req.body.email,
-      subject: "Reset your password account in CG Vortex website",
+      subject: "Reset your password account in Car-F website",
       html: `<h1>Link to reset your password</h1>
     <p>Click the following link to reset your password</p>
     <a href="${process.env.PRODUCTION_URL}/reset-password/${token}">${process.env.PRODUCTION_URL}/reset-password/${token}</a>
