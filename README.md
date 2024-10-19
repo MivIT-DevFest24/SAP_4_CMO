@@ -55,6 +55,8 @@ The project is structured as follows:
 
 ## Services
 
+![architecture](./images/arch.png)
+
 ### Data Ingestion Service
 
 - **Purpose**: Receives machine data from external APIs and forwards it to the analytics service via WebSocket. It also stores data in InfluxDB for historical tracking.
