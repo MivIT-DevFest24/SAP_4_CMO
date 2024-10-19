@@ -6,7 +6,7 @@ from langchain.output_parsers.json import SimpleJsonOutputParser
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-from Services.Analytics.analyse import analyse
+from analyse import analyse
 
 logging.basicConfig(level=logging.INFO)
 
