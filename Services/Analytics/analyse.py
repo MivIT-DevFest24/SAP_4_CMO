@@ -1,3 +1,4 @@
+import logging
 import os
 from langchain.output_parsers.json import SimpleJsonOutputParser
 import google.generativeai as genai
@@ -30,47 +31,6 @@ def analyse(input_data, json_parser, model):
             - Output the results in a JSON object with three keys: `"issue_detected"`, `"suggested_action"`, and `"action"`. 
             - The values should be the detected issue, the corresponding step-by-step suggested action, and either "alert", "schedule_maintenance", or "no_alert" based on the severity of the issue.
 
-        # Examples:
-        # Example 1
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1600, "weld_current": 150, "weld_voltage": 30, "weld_time": 500, "pressure_applied": 1000, "arm_position": "x": 120.5, "y": 80.4, "z": 200.3, "wire_feed_rate": 5, "gas_flow_rate": 20, "weld_strength_estimate": 2000, "vibration_level": 0.2, "power_consumption": 3.5, "timestamp": "2024-10-14T11:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Normal Operation", "suggested_action": "No action required.", "action": "no_alert"}}
-
-        # Example 2
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1800, "weld_current": 160, "weld_voltage": 35, "weld_time": 600, "pressure_applied": 1200, "arm_position": "x": 125.5, "y": 85.4, "z": 210.3, "wire_feed_rate": 6, "gas_flow_rate": 22, "weld_strength_estimate": 2500, "vibration_level": 0.6, "power_consumption": 4.8, "timestamp": "2024-10-14T12:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Overheating", "suggested_action": "Step 1: Reduce weld temperature. Step 2: Inspect cooling system. Step 3: Verify heat dissipation.", "action": "alert"}}
-
-        # Example 3
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1400, "weld_current": 140, "weld_voltage": 28, "weld_time": 450, "pressure_applied": 900, "arm_position": "x": 110.5, "y": 75.4, "z": 190.3, "wire_feed_rate": 4, "gas_flow_rate": 18, "weld_strength_estimate": 1800, "vibration_level": 0.3, "power_consumption": 2.9, "timestamp": "2024-10-14T13:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Low Power Consumption", "suggested_action": "Step 1: Verify machine load. Step 2: Check for power supply issues.", "action": "no_alert"}}
-
-        # Example 4
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1550, "weld_current": 148, "weld_voltage": 33, "weld_time": 520, "pressure_applied": 1100, "arm_position": "x": 118.5, "y": 78.4, "z": 198.3, "wire_feed_rate": 5.5, "gas_flow_rate": 19, "weld_strength_estimate": 2200, "vibration_level": 0.2, "power_consumption": 3.9, "timestamp": "2024-10-14T14:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Excessive Weld Current", "suggested_action": "Step 1: Reduce weld current. Step 2: Inspect weld quality.", "action": "alert"}}
-
-        # Example 5
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1450, "weld_current": 135, "weld_voltage": 28, "weld_time": 400, "pressure_applied": 800, "arm_position": "x": 105.5, "y": 70.4, "z": 180.3, "wire_feed_rate": 4.2, "gas_flow_rate": 15, "weld_strength_estimate": 1700, "vibration_level": 0.1, "power_consumption": 3.0, "timestamp": "2024-10-14T15:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Predictive Maintenance Required", "suggested_action": "Step 1: Schedule maintenance. Step 2: Inspect mechanical components. Step 3: Perform routine diagnostics.", "action": "schedule_maintenance"}}
-
-        # Example 6
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1700, "weld_current": 180, "weld_voltage": 40, "weld_time": 650, "pressure_applied": 1300, "arm_position": "x": 130.5, "y": 90.4, "z": 220.3, "wire_feed_rate": 7, "gas_flow_rate": 25, "weld_strength_estimate": 3000, "vibration_level": 0.8, "power_consumption": 5.2, "timestamp": "2024-10-14T16:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Overload Detected", "suggested_action": "Step 1: Reduce weld current and voltage. Step 2: Inspect components for wear.", "action": "alert"}}
-
-        # Example 7
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1500, "weld_current": 140, "weld_voltage": 32, "weld_time": 480, "pressure_applied": 950, "arm_position": "x": 115.5, "y": 76.4, "z": 195.3, "wire_feed_rate": 5, "gas_flow_rate": 18, "weld_strength_estimate": 1900, "vibration_level": 0.4, "power_consumption": 3.2, "timestamp": "2024-10-14T17:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Vibration Detected", "suggested_action": "Step 1: Check mechanical alignment. Step 2: Inspect moving parts for wear. Step 3: Tighten loose components.", "action": "alert"}}
-
-        # Example 8
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1600, "weld_current": 150, "weld_voltage": 30, "weld_time": 500, "pressure_applied": 1000, "arm_position": "x": 120.5, "y": 80.4, "z": 200.3, "wire_feed_rate": 5, "gas_flow_rate": 20, "weld_strength_estimate": 2000, "vibration_level": 0.0, "power_consumption": 3.5, "timestamp": "2024-10-14T18:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Normal Operation", "suggested_action": "No action required.", "action": "no_alert"}}
-
-        # Example 9
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1900, "weld_current": 170, "weld_voltage": 38, "weld_time": 700, "pressure_applied": 1400, "arm_position": "x": 135.5, "y": 95.4, "z": 230.3, "wire_feed_rate": 8, "gas_flow_rate": 28, "weld_strength_estimate": 3200, "vibration_level": 1.0, "power_consumption": 6.0, "timestamp": "2024-10-14T19:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Severe Overheating", "suggested_action": "Step 1: Shut down machine. Step 2: Inspect cooling system immediately. Step 3: Reduce load before restarting.", "action": "alert"}}
-
-        # Example 10
-        # Input Data: "machine_id": "welding_robot_006", "weld_temperature": 1550, "weld_current": 145, "weld_voltage": 32, "weld_time": 510, "pressure_applied": 1050, "arm_position": "x": 118.0, "y": 79.4, "z": 202.3, "wire_feed_rate": 5.5, "gas_flow_rate": 21, "weld_strength_estimate": 2100, "vibration_level": 0.3, "power_consumption": 3.8, "timestamp": "2024-10-14T20:00:00Z"
-        # Expected JSON Output: {{"issue_detected": "Normal Operation", "suggested_action": "No action required.", "action": "no_alert"}}
-
         # Your Task:
         # 1. Analyze the machine data and detect potential issues or maintenance requirements.
         # 2. Provide a step-by-step guide to resolving the issue or performing maintenance.
@@ -92,7 +52,12 @@ def analyse(input_data, json_parser, model):
 
     response = model.generate_content(prompt)
 
-    jsonified_response = json_parser.parse(response.text)
+    try:
+        jsonified_response = json_parser.parse(response.text)
+    except json.JSONDecodeError as e:
+        logging.error(f"Failed to parse JSON response: {e}")
+        jsonified_response = None  # Handle as needed
+
 
     return jsonified_response
 
