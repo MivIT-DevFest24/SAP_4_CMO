@@ -1,7 +1,8 @@
-Smart Analytics Platform for Car Manufacturing Operations
+# Smart Analytics Platform for Car Manufacturing Operations
 
 This project is a Smart Analytics Platform for monitoring and analyzing real-time machine data from car manufacturing operations. The platform collects data from various machines, processes it, and forwards it to an analytics service while saving it to a time-series database. The project is containerized using Docker for efficient deployment and management of services.
-Table of Contents
+
+## Table of Contents
 
     Introduction
     Features
@@ -16,7 +17,7 @@ Table of Contents
     Charts and Visualization
     Contributing
 
-Introduction
+## Introduction
 
 This platform monitors real-time machine data from car manufacturing operations, providing insights into machine performance and energy efficiency. The system collects sensor data, forwards it to an analytics service for real-time processing, and stores the data in an InfluxDB database for historical tracking and analysis.
 Features
@@ -27,7 +28,7 @@ Features
     Containerized services: Each service is deployed in an isolated Docker container.
     Dashboard visualization: Charts are rendered in the frontend to display real-time and historical sensor data.
 
-Technologies Used
+## Technologies Used
 
     FastAPI: Backend API and WebSocket server for data ingestion and analytics.
     InfluxDB: Time-series database for storing machine data.
@@ -36,9 +37,8 @@ Technologies Used
     React (with Chart.js): Frontend for displaying charts and visualizing data.
     Chart.js: Library used for creating charts and visualizations in the frontend.
 
-Project Architecture
+## Project Architecture
 
-graphql
 
 /project-root
    ├── docker-compose.yml
@@ -58,8 +58,8 @@ graphql
                ├── Dashboard.js       # Main dashboard for displaying sensor data
            ├── Dockerfile            # Docker setup for the frontend service
 
-Services
-Data Ingestion Service
+## Services
+### Data Ingestion Service
 
     Purpose: Receives machine data from external APIs and forwards it to the analytics service via WebSocket. It also stores data in InfluxDB for historical tracking.
     Tech: FastAPI, WebSocket, InfluxDBClient.
@@ -70,7 +70,7 @@ Key File: webhook_receive.py
     Sends data to the analytics service over WebSocket.
     Saves data to InfluxDB.
 
-InfluxDB
+## InfluxDB
 
     Purpose: Time-series database used to store the sensor data for historical tracking and analytics.
     Setup: Runs in a Docker container, pre-configured with an organization, bucket, and token.
@@ -91,7 +91,7 @@ influxdb:
     DOCKER_INFLUXDB_INIT_BUCKET: SAP_4_CMO
     DOCKER_INFLUXDB_INIT_TOKEN: <YOUR_TOKEN>
 
-How to Run
+## How to Run
 
     Clone the repository:
 
