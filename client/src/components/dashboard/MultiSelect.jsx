@@ -33,7 +33,7 @@ export default function MultiSelect({
         <DropdownMenuTrigger asChild>
           <Button className="flex gap-2" variant="outline">
             {listOfShifts.length === 0
-              ? "Select shifts"
+              ? "Select sectors"
               : listOfShifts.join(", ")}
             <ChevronDown size={16} />
           </Button>
@@ -49,7 +49,7 @@ export default function MultiSelect({
                   setListOfShifts([...listOfShifts, item]);
                 } else {
                   setListOfShifts(
-                    listOfShifts.filter((shift) => shift !== item)
+                    listOfShifts.filter((sector) => sector !== item)
                   );
                 }
               }}

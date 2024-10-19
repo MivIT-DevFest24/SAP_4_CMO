@@ -17,9 +17,11 @@ import Scheduler from "@/pages/Scheduler";
 import Rapports from "@/pages/Rapports";
 import Employees from "@/pages/Employees";
 import AddEmployee from "@/pages/AddEmployee";
+import Machine from "@/pages/Machine";
 
 const Router = () => {
-  const { setConnected, setRole, setFirstName, connected, role, setLastName } = useAuth();
+  const { setConnected, setRole, setFirstName, connected, role, setLastName } =
+    useAuth();
 
   // check if the user is connected
   useEffect(() => {
@@ -138,6 +140,14 @@ const Router = () => {
             element={
               <DashboardLayout>
                 <Machines />
+              </DashboardLayout>
+            }
+          />
+          <Route
+            path="/machines/:id"
+            element={
+              <DashboardLayout>
+                <Machine />
               </DashboardLayout>
             }
           />

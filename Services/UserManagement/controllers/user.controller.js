@@ -87,7 +87,7 @@ export const getAllUsers = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
-        shifts: user.shifts,
+        sectors: user.sectors,
       }))
     );
   } catch (err) {
