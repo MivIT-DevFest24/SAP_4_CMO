@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 import logging
+import httpx
 import pandas as pd
 import os
 from langchain.output_parsers.json import SimpleJsonOutputParser
@@ -11,6 +12,8 @@ from analyse import analyse
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
+
+ALERTS_URL = "http://localhost:8002/alert-data/"
 
 data_df = pd.DataFrame()
 
@@ -38,7 +41,11 @@ async def process_data(request: Request):
 
     analysis_result = analyse(data, json_parser, model)
     logging.info(f"Analysis result: {analysis_result}")
-    
+
+    # Send data to Analytics Service
+    async with httpx.AsyncClient() as client:
+        response = await client.post(ALERTS_URL, json=analysis_result) if analysis_result["action"] == "alert" else None
+        logging.info(f"Data forwarded to Analytics service. Response status: {response.status_code}")
 
     return {"status": "Data processed successfully"}
 
