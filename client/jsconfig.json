@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "resolveJsonModule": true,
+      "jsx": "react",
+      // ...
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+      // ...
+    }
+  }
+  
