@@ -24,8 +24,23 @@ client = get_influxdb_client()
 
 write_api = client.write_api()
 
-# Helper function to write data to InfluxDB
+
 async def save_to_influxdb(data):
+    """
+    Asynchronously saves data to InfluxDB.
+    This function takes a dictionary of data, constructs an InfluxDB Point object,
+    and writes it to the specified InfluxDB bucket. The data dictionary should 
+    contain a "machine_id" key for tagging, and a "timestamp" key for the point's 
+    timestamp. All other key-value pairs in the dictionary are added as fields to 
+    the InfluxDB point.
+    Args:
+        data (dict): A dictionary containing the data to be saved. The dictionary 
+                     must include "machine_id" and "timestamp" keys. Other keys 
+                     will be added as fields to the InfluxDB point.
+    Raises:
+        Exception: If there is an error writing the data to InfluxDB, an exception 
+                   is logged.
+    """
     try:
         # Create a Point object using the received data dynamically
         point = Point("sensor_data").tag("machine_id", data["machine_id"])
@@ -50,8 +65,21 @@ async def save_to_influxdb(data):
     except Exception as e:
         logging.error(f"Failed to write data to InfluxDB: {e}")
 
-# Helper function to send data to the analytics service
+
 async def send_to_analytics(data):
+    """
+    Asynchronously sends data to the analytics service via a WebSocket connection.
+
+    Args:
+        data (any): The data to be sent to the analytics service. It will be converted to a string before sending.
+
+    Raises:
+        Exception: If there is an error during the WebSocket connection or data transmission, it will be logged as an error.
+
+    Logs:
+        Info: Logs a message indicating that the data has been successfully sent to the analytics service.
+        Error: Logs an error message if the data transmission fails.
+    """
     try:
         async with websockets.connect(analytics_ws_url) as websocket:
             await websocket.send(str(data))  # Send the received data as a string

@@ -18,6 +18,20 @@ api_url = "https://manufcaturing-challenge-production.up.railway.app/Webhook"
 callback_url = "https://e5a2-154-248-212-97.ngrok-free.app/receive-data/"
 
 def subscribe_to_machines():
+    """
+    Subscribes a list of machines to a specified API endpoint using a POST request.
+
+    This function iterates over a predefined list of machines, constructs a subscription payload
+    for each machine, and sends a POST request to the API. It logs the success or failure of each
+    subscription attempt.
+
+    Raises:
+        Exception: If there is an error during the subscription process.
+
+    Logs:
+        Info: When a machine is successfully subscribed.
+        Error: When a machine fails to subscribe or if there is an exception during the process.
+    """
     for machine in machines:
         subscription_payload = {
             "machine": machine,

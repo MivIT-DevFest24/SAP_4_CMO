@@ -5,7 +5,13 @@ logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 
-# WebSocket endpoint to receive data from the ingestion service
+# WebSocket endpoint to handle incoming WebSocket connections.
+
+# This endpoint accepts WebSocket connections at the "/ws" route. Once a connection is established,
+# it continuously listens for incoming text data from the client. Received data is logged for
+# monitoring purposes. If the WebSocket connection is closed, a log entry is created to indicate
+# the disconnection.
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
