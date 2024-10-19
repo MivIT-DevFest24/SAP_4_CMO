@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 import logging
+import httpx
 import websockets
 
 from influxdb_client import Point
@@ -92,7 +93,6 @@ async def send_to_analytics(data):
 async def receive_data(request: Request):
     # Parse the incoming JSON data
     data = await request.json()
-    logging.info(f"Received data: {data}")
 
     # Step 1: Save the data to InfluxDB
     await save_to_influxdb(data)
