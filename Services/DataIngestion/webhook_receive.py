@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Request
 import logging
-import httpx
 import websockets
 
 from influxdb_client import Point

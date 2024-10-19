@@ -60,6 +60,16 @@ services:
     networks:
       - app-network
 
+  # UserManagement service  
+  usermanagement-service:
+    build: ./Services/UserManagement
+    env_file:
+      - ./Services/UserManagement/.env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./Services/UserManagement:/app
+    command: npm install && npm start
 volumes:
   influxdb_data:
 
