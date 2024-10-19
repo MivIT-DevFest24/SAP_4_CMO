@@ -14,13 +14,13 @@ import { Bell, User } from "lucide-react";
 
 export default function ProfilAvatar() {
   const navigate = useNavigate();
-  const { firstName, role } = useAuth();
+  const { firstName, role, lastName } = useAuth();
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Bell className=" text-orange-600" />
+          <Bell className=" text-orange-500" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Notifications</DropdownMenuLabel>
@@ -41,7 +41,9 @@ export default function ProfilAvatar() {
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col items-start">
-          <p className="text-xl font-bold">{firstName}</p>
+          <p className="text-xl font-bold">
+            {firstName} {lastName}
+          </p>
           <p className="text-xs text-muted/60">{role}</p>
         </div>
       </div>

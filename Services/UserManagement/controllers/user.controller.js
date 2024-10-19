@@ -6,7 +6,7 @@ import { createRefreshToken } from "../helpers/createTokens.js";
 
 export const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId)
+    const user = await User.findById(req.userId);
     if (!user) {
       return res.status(404).send({ message: "User Not found." });
     }
@@ -79,7 +79,7 @@ export const updatePassword = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     // get all users except the current user
-    const users = await User.find({ _id: { $ne: req.userId } })
+    const users = await User.find({ _id: { $ne: req.userId } });
     res.status(200).send(
       users.map((user) => ({
         _id: user._id,
@@ -87,6 +87,7 @@ export const getAllUsers = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        shifts: user.shifts,
       }))
     );
   } catch (err) {
@@ -96,7 +97,7 @@ export const getAllUsers = async (req, res) => {
 
 export const modifyUserRole = async (req, res) => {
   try {
-    const userToModify = await User.findById(req.body.userId)
+    const userToModify = await User.findById(req.body.userId);
     if (!userToModify) {
       return res.status(404).send({ message: "User Not found." });
     }
@@ -112,7 +113,7 @@ export const modifyUserRole = async (req, res) => {
 
 export const getRecentUsers = async (req, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 }).limit(5)
+    const users = await User.find().sort({ createdAt: -1 }).limit(5);
     res.status(200).send(
       users.map((user) => ({
         _id: user._id,
@@ -144,9 +145,49 @@ export const deleteUser = async (req, res) => {
 
 export const getStatistics = async (req, res) => {
   try {
-    const users = await User.find()
+    const users = await User.find();
+    // get the percentage of users that are created by last month
+    const lastMonth = new Date();
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    const recentUsers = users.filter((user) => user.createdat > lastMonth);
+    // get the total number of users
+    const totalUsers = users.length;
+    // calculate the percentage
+    const userPercentageLastMoth = (recentUsers.length / totalUsers) * 100;
+
+    // get the total number of managers
+    const managers = users.filter((user) => user.role === "manager");
+    // get the percentage of managers that are created by last month
+    const recentManagers = managers.filter(
+      (manager) => manager.createdat > lastMonth
+    );
+    // calculate the percentage
+    const managersPercentageLastMoth =
+      (recentManagers.length / managers.length) * 100;
+
+    // get the total number of operators
+    const operators = users.filter((user) => user.role === "operator");
+    // get the percentage of operators that are created by last month
+    const recentOperators = operators.filter(
+      (operator) => operator.createdat > lastMonth
+    );
+    // calculate the percentage
+    const operatorsPercentageLastMoth =
+      (recentOperators.length / operators.length) * 100;
+
+    // get the percentage of of managers and operators
+    const managersPercentage = (managers.length / totalUsers) * 100;
+    const operatorsPercentage = (operators.length / totalUsers) * 100;
+
     res.status(200).send({
-      users: users.length,
+      users: totalUsers,
+      managers: managers.length,
+      operators: operators.length,
+      userPercentageLastMoth,
+      managersPercentageLastMoth,
+      operatorsPercentageLastMoth,
+      managersPercentage,
+      operatorsPercentage,
     });
   } catch (err) {
     res.status(500).send({ message: err.message });

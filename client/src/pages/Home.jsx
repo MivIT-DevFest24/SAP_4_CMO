@@ -21,7 +21,7 @@ const LoginFormSchema = z.object({
 });
 
 export default function Home() {
-  const { setConnected, setRole, setFirstName } = useAuth();
+  const { setConnected, setRole, setFirstName, setLastName } = useAuth();
   const loginMutation = useLoginMutation();
   const navigate = useNavigate();
 
@@ -44,6 +44,7 @@ export default function Home() {
       setAccessToken(response.accessToken);
       setRole(response.role);
       setFirstName(response.firstName);
+      setLastName(response.lastName);
       setConnected(true);
       createAxiosInstance();
       // Redirect to the dashboard
@@ -61,7 +62,7 @@ export default function Home() {
       <img className="w-1/3" src={heroPic} alt="hero-pic" />
       <div className="w-fit flex flex-col items-left gap-4">
         <h1 className="text-6xl font-bold">
-          Welcome to <br /> <span className="text-orange-600">Car-F</span>
+          Welcome to <br /> <span className="text-orange-500">Car-F</span>
         </h1>
         <h3 className="text-lg font-semibold">Log in to your account</h3>
 
@@ -86,7 +87,7 @@ export default function Home() {
             isSubmitting={isSubmitting}
             text="Log in"
             loading="Logging in..."
-            className="bg-orange-600 w-36"
+            className="bg-orange-500 w-36"
           />
 
           {errors.root && <ErrorMessage message={errors.root.message} />}

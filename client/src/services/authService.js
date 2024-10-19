@@ -12,7 +12,7 @@ export const login = async (data) => {
 
 export const createUser = async (data) => {
   try {
-    const response = await axiosInstance.post("auth/createUser", data);
+    const response = await axiosInstance.post("user/createUser", data);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [role, setRole] = useState(null);
   const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
   const [openLogin, setOpenLogin] = useState(false);
   const [openForgetPassword, setOpenForgetPassword] = useState(false);
 
@@ -18,6 +19,8 @@ export const AuthProvider = ({ children }) => {
         setRole,
         firstName,
         setFirstName,
+        lastName,
+        setLastName,
         openLogin,
         setOpenLogin,
         openForgetPassword,

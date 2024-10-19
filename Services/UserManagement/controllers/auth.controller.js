@@ -11,24 +11,21 @@ import { sendRefreshToken } from "../helpers/sendRefreshToken.js";
 
 export const createUser = async (req, res) => {
   try {
+    console.log(req.body);
     const user = new User({
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       username: req.body.username,
-      role : req.body.role,
+      role: req.body.role,
       shifts: req.body.shifts,
       email: req.body.email,
       password: bycrypt.hashSync(req.body.password, 8),
     });
 
-    const savedUser = await user.save();
+    await user.save();
 
-    // assigning the refresh token in httpOnly cookie
-    sendRefreshToken(res, createRefreshToken(savedUser));
-
-    res.status(200).send({
-      accessToken: createAccessToken(savedUser),
-      role: savedUser.role,
+    res.status(201).send({
+      message: "User created successfully",
     });
   } catch (err) {
     console.log(err);
@@ -64,7 +61,7 @@ export const login = async (req, res) => {
       accessToken: createAccessToken(user),
       role: user.role,
       firstname: user.firstname,
-      image: user.imageurl,
+      lastname: user.lastname,
     });
   } catch (err) {
     res.status(500).send({ message: err.message });
@@ -116,7 +113,7 @@ export const refresh = async (req, res) => {
           accessToken: createAccessToken(user),
           role: user.role,
           firstname: user.firstname,
-          image: user.imageurl,
+          lastname: user.lastname,
         });
       }
     );

@@ -12,7 +12,7 @@ export default function Logo() {
         height={50}
         className=""
       />
-      <h2 className="lg:text-4xl sm:text-xl text-lg text-orange-600 font-bold">Car-F</h2>
+      <h2 className="lg:text-4xl sm:text-xl text-lg text-orange-500 font-bold">Car-F</h2>
     </Link>
   );
 }

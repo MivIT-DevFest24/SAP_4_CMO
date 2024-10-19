@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext.jsx";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/components/ui/use-toast.jsx";
+import { useToast } from "@/hooks/use-toast";
 
 import { Button } from "@/components/ui/button.jsx";
 
@@ -26,8 +26,12 @@ const ProfilInfoFormSchema = z.object({
 
 export default function UserFormInfo({ userInfo }) {
   const { toast } = useToast();
-  const { setFirstName, openForgetPassword, setOpenForgetPassword } =
-    useAuth();
+  const {
+    setFirstName,
+    openForgetPassword,
+    setOpenForgetPassword,
+    setLastName,
+  } = useAuth();
   const [openChangePassword, setOpenChangePassword] = useState(false);
 
   const {
@@ -49,6 +53,8 @@ export default function UserFormInfo({ userInfo }) {
   const onSubmit = async (data) => {
     try {
       setFirstName(getValues("firstname"));
+      setLastName(getValues("lastname"));
+
       // Show success message
       toast({
         variant: "success",
@@ -69,7 +75,6 @@ export default function UserFormInfo({ userInfo }) {
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-2xl w-full mx-auto"
       >
-
         <div className="grid grid-cols-1 sm:gap-6 mt-6 sm:grid-cols-2">
           <FormInput
             register={register}
@@ -106,14 +111,18 @@ export default function UserFormInfo({ userInfo }) {
           <Button
             type="button"
             variant="outline"
-            className="border-2  border-stone-700 dark:border-white dark:bg-transparent"
+            className="border-2  border-orange-500 text-orange-500 hover:bg-orange-200 hover:text-white"
             onClick={() => {
               setOpenChangePassword(true);
             }}
           >
             Change Password
           </Button>
-          <Button type="submit" disabled={isSubmitting} className="">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className=" bg-orange-500 hover:bg-orange-600"
+          >
             {isSubmitting ? "updating..." : "Update Profile"}
           </Button>
         </div>
@@ -125,7 +134,13 @@ export default function UserFormInfo({ userInfo }) {
       </FormModal>
 
       <FormModal open={openForgetPassword} setOpen={setOpenForgetPassword}>
-        <Suspense fallback={<div><img src={loading_gif} alt="loading gif" /></div>}>
+        <Suspense
+          fallback={
+            <div>
+              <img src={loading_gif} alt="loading gif" />
+            </div>
+          }
+        >
           <ForgetPassword />
         </Suspense>
       </FormModal>
